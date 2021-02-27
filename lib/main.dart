@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.blue,
               ),
               child: Text(
-                'B    G',
+                'B   G ',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 100,
