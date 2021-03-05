@@ -1,22 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:myapp/forms.dart';
 import 'package:myapp/main.dart';
 
 class Customers extends StatelessWidget {
+  final TextEditingController searchBox = TextEditingController();
+
+  get onSearchTextChanged => null;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         drawer: new DrawerCodeOnly(),
-        appBar: new AppBar(title: new Text("Customers"), actions: <Widget>[
-          FloatingActionButton(
+        appBar:
+            new AppBar(title: new Text("Customers Details"), actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
             onPressed: () {
               Navigator.push(context,
                   new MaterialPageRoute(builder: (context) => new Forms()));
             },
-            child: Icon(Icons.add),
           ),
         ]),
-        body: MyStatefulWidget());
+        body: new Column(children: <Widget>[
+          new Container(
+            color: Theme.of(context).primaryColor,
+            child: new Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new Card(
+                child: new ListTile(
+                  leading: new Icon(Icons.search),
+                  title: new TextField(
+                    controller: searchBox,
+                    decoration: new InputDecoration(
+                        hintText: 'Search', border: InputBorder.none),
+                    onChanged: onSearchTextChanged,
+                  ),
+                  trailing: new IconButton(
+                    icon: new Icon(Icons.cancel),
+                    onPressed: () {
+                      searchBox.clear();
+                      onSearchTextChanged('');
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: MyStatefulWidget(),
+          )
+        ]));
   }
 }
 
@@ -47,19 +81,16 @@ class Customer {
     customers.add(customer);
   }
 
-  void add(Customer customer) {}
+  static void removeCustomer(Customer customer) {
+    customers.remove(customer);
+  }
 }
 
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget({Key key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    return ListView(children: <Widget>[
-      Center(
-          child: Text(
-        'Customer Details',
-        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-      )),
+    return ListView(scrollDirection: Axis.horizontal, children: <Widget>[
       DataTable(
         columns: [
           DataColumn(
@@ -71,12 +102,25 @@ class MyStatefulWidget extends StatelessWidget {
           DataColumn(
               label: Text('Address',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
+          DataColumn(
+              label: Text('Delete',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
         ],
         rows: Customer.getCustomers()
             .map((customer) => DataRow(cells: [
                   DataCell(Text(customer.name)),
                   DataCell(Text(customer.phoneNumber)),
                   DataCell(Text(customer.address)),
+                  DataCell(IconButton(
+                    onPressed: () {
+                      Customer.removeCustomer(customer);
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Customers()));
+                    },
+                    icon: Icon(Icons.delete),
+                  ))
                 ]))
             .toList(),
       ),
