@@ -4,9 +4,8 @@ import 'package:myapp/forms.dart';
 import 'package:myapp/main.dart';
 
 class Customers extends StatelessWidget {
-  final TextEditingController searchBox = TextEditingController();
-
-  get onSearchTextChanged => null;
+  final TextEditingController searchBox =
+      TextEditingController(text: Customer.searchString);
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +33,23 @@ class Customers extends StatelessWidget {
                     controller: searchBox,
                     decoration: new InputDecoration(
                         hintText: 'Search', border: InputBorder.none),
-                    onChanged: onSearchTextChanged,
+                    onSubmitted: (t) {
+                      Customer.searchString = t;
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Customers()));
+                    },
                   ),
                   trailing: new IconButton(
                     icon: new Icon(Icons.cancel),
                     onPressed: () {
                       searchBox.clear();
-                      onSearchTextChanged('');
+                      Customer.searchString = null;
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Customers()));
                     },
                   ),
                 ),
@@ -61,6 +70,7 @@ class Customer {
   String address;
 
   static Customers customer;
+  static String searchString;
 
   static List<Customer> getCustomers() {
     /*List<Customer> customers = new List<Customer>();
@@ -74,7 +84,7 @@ class Customer {
     customer2.phoneNumber = "87585766";
     customer2.address = "tau";
    customers.add(customer2); */
-    return customers;
+    return filterCustomer(searchString);
   }
 
   static void addCustomer(Customer customer) {
@@ -83,6 +93,15 @@ class Customer {
 
   static void removeCustomer(Customer customer) {
     customers.remove(customer);
+  }
+
+  static List<Customer> filterCustomer(String searchString) {
+    if (searchString == null || searchString.isEmpty) {
+      return customers;
+    }
+    return customers
+        .where((customer) => customer.name.contains(searchString))
+        .toList();
   }
 }
 
