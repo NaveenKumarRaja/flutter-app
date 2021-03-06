@@ -68,8 +68,10 @@ class DrawerCodeOnly extends StatelessWidget {
             title: Text('Customers'),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => new Customers()));
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new CustomersWidget()));
             },
           ),
           ListTile(

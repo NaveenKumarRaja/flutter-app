@@ -84,7 +84,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new Customers()));
+                        builder: (context) => new CustomersWidget()));
 
                 // Validate will return true if the form is valid, or false if
                 // the form is invalid.

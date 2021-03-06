@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:myapp/forms.dart';
 import 'package:myapp/main.dart';
 
-class Customers extends StatelessWidget {
+class CustomersWidget extends StatelessWidget {
   final TextEditingController searchBox =
       TextEditingController(text: Customer.searchString);
 
@@ -38,7 +38,7 @@ class Customers extends StatelessWidget {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Customers()));
+                              builder: (context) => new CustomersWidget()));
                     },
                   ),
                   trailing: new IconButton(
@@ -49,7 +49,7 @@ class Customers extends StatelessWidget {
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Customers()));
+                              builder: (context) => new CustomersWidget()));
                     },
                   ),
                 ),
@@ -64,16 +64,16 @@ class Customers extends StatelessWidget {
 }
 
 class Customer {
-  static List<Customer> customers = new List<Customer>();
+  static List<Customer> customers = customerStub;
   String name;
   String phoneNumber;
   String address;
 
-  static Customers customer;
+  static CustomersWidget customer;
   static String searchString;
 
-  static List<Customer> getCustomers() {
-    /*List<Customer> customers = new List<Customer>();
+  static get customerStub {
+    List<Customer> customers = new List<Customer>();
     Customer customer1 = new Customer();
     customer1.name = "Naveen";
     customer1.phoneNumber = "87585766";
@@ -83,7 +83,11 @@ class Customer {
     customer2.name = "Naven";
     customer2.phoneNumber = "87585766";
     customer2.address = "tau";
-   customers.add(customer2); */
+    customers.add(customer2);
+    return customers;
+  }
+
+  static List<Customer> getCustomers() {
     return filterCustomer(searchString);
   }
 
@@ -109,40 +113,117 @@ class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget({Key key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    return ListView(scrollDirection: Axis.horizontal, children: <Widget>[
-      DataTable(
-        columns: [
-          DataColumn(
-              label: Text('Customer Name',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-          DataColumn(
-              label: Text('Phone No',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-          DataColumn(
-              label: Text('Address',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-          DataColumn(
-              label: Text('Delete',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-        ],
-        rows: Customer.getCustomers()
-            .map((customer) => DataRow(cells: [
-                  DataCell(Text(customer.name)),
-                  DataCell(Text(customer.phoneNumber)),
-                  DataCell(Text(customer.address)),
-                  DataCell(IconButton(
-                    onPressed: () {
-                      Customer.removeCustomer(customer);
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Customers()));
-                    },
-                    icon: Icon(Icons.delete),
-                  ))
-                ]))
-            .toList(),
-      ),
-    ]);
+    /* return Text(
+      'Hello, ! How are you?',
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );*/
+    return Container(
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+          Expanded(
+              child: ListView.builder(
+                  itemCount: Customer.customers.length,
+                  itemBuilder: (context, int index) {
+                    return Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        height: 170,
+                        width: double.maxFinite,
+                        child: Card(
+                            elevation: 5,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.all(7),
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10, top: 5),
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.person,
+                                                          size: 55,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomLeft,
+                                                          child: Text(
+                                                            Customer.customers
+                                                                .elementAt(
+                                                                    index)
+                                                                .address,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: <Widget>[
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            Customer.customers
+                                                                .elementAt(
+                                                                    index)
+                                                                .name,
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                fontSize: 30,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )))));
+                  }))
+        ]));
   }
 }
