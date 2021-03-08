@@ -114,13 +114,35 @@ class MyStatefulWidget extends StatelessWidget {
   @override
   // ignore: non_constant_identifier_names
   Widget build(BuildContext context) {
+    return ListView.builder(
+
+        //Even if zero elements to update scroll
+        itemCount: Customer.getCustomers().length,
+        itemBuilder: (context, index) {
+          return Container(
+              child: ListTile(
+                  leading: CircleAvatar(radius: 20),
+                  title: Text(
+                    Customer.getCustomers().elementAt(index).name,
+                    //style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(Customer.customers[index].phoneNumber),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () {
+                    Text(Customer.customers[index].address);
+                  }
+                  // onTap
+
+                  ));
+        });
+
     /* return Text(
       'Hello, ! How are you?',
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(fontWeight: FontWeight.bold),
     );*/
-    return Container(
+    /*return Container(
         child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -139,7 +161,7 @@ class MyStatefulWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   border: Border(
                                     top: BorderSide(
-                                      width: 5.0,
+                                      width: 2.0,
                                     ),
                                   ),
                                   color: Colors.white,
@@ -253,6 +275,6 @@ class MyStatefulWidget extends StatelessWidget {
                                       ],
                                     )))));
                   }))
-        ]));
+        ]));*/
   }
 }
