@@ -111,7 +111,8 @@ class Customer {
 
 class MyStatefulWidget extends StatelessWidget {
   MyStatefulWidget({Key key}) : super(key: key);
-
+  @override
+  // ignore: non_constant_identifier_names
   Widget build(BuildContext context) {
     /* return Text(
       'Hello, ! How are you?',
@@ -129,7 +130,7 @@ class MyStatefulWidget extends StatelessWidget {
                   itemCount: Customer.customers.length,
                   itemBuilder: (context, int index) {
                     return Container(
-                        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        padding: EdgeInsets.fromLTRB(5, 5, 5, 2),
                         height: 170,
                         width: double.maxFinite,
                         child: Card(
@@ -138,7 +139,7 @@ class MyStatefulWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   border: Border(
                                     top: BorderSide(
-                                      width: 2.0,
+                                      width: 5.0,
                                     ),
                                   ),
                                   color: Colors.white,
@@ -160,35 +161,38 @@ class MyStatefulWidget extends StatelessWidget {
                                                       children: <Widget>[
                                                         Icon(
                                                           Icons.person,
-                                                          size: 55,
+                                                          size: 50,
                                                         ),
                                                         SizedBox(
                                                           height: 10,
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: <Widget>[
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .bottomLeft,
-                                                          child: Text(
-                                                            Customer.customers
-                                                                .elementAt(
-                                                                    index)
-                                                                .address,
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                                fontSize: 30,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        )
+                                                        ),
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                Customer
+                                                                    .customers
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .name,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        30,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ],
                                                     ),
                                                     Column(
@@ -200,7 +204,32 @@ class MyStatefulWidget extends StatelessWidget {
                                                             Customer.customers
                                                                 .elementAt(
                                                                     index)
-                                                                .name,
+                                                                .address,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Spacer(),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .bottomLeft,
+                                                          child: Text(
+                                                            Customer.customers
+                                                                .elementAt(
+                                                                    index)
+                                                                .phoneNumber,
                                                             textAlign:
                                                                 TextAlign.left,
                                                             overflow:
